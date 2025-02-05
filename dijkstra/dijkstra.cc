@@ -3,10 +3,10 @@
 vector<int> Dijkstra::shortest_paths(int start)
 {
   vector<int> dist(n, std::numeric_limits<int>::max());
-  dist[start] = 0;
+  dist[id_to_index.at(start)] = 0;
 
   priority_queue<Node, vector<Node>, greater<Node>> pq;
-  pq.push({start, 0});
+  pq.push({id_to_index.at(start), 0});
 
   while (!pq.empty())
   {
@@ -21,7 +21,7 @@ vector<int> Dijkstra::shortest_paths(int start)
 
     for (const Edge &edge : graph[u])
     {
-      int v = edge.first;
+      int v = id_to_index.at(edge.first);
       int weight = edge.second;
       int new_dist = d + weight;
 
@@ -39,10 +39,10 @@ vector<int> Dijkstra::shortest_paths(int start)
 int Dijkstra::shortest_path(int start, int target)
 {
   vector<int> dist(n, std::numeric_limits<int>::max());
-  dist[start] = 0;
+  dist[id_to_index.at(start)] = 0;
 
   priority_queue<Node, vector<Node>, greater<Node>> pq;
-  pq.push({start, 0});
+  pq.push({id_to_index.at(start), 0});
 
   while (!pq.empty())
   {
@@ -52,7 +52,7 @@ int Dijkstra::shortest_path(int start, int target)
     int u = current.vertex;
     int d = current.cost;
 
-    if (u == target)
+    if (u == id_to_index.at(target))
     {
       return d;
     }
@@ -62,7 +62,7 @@ int Dijkstra::shortest_path(int start, int target)
 
     for (const Edge &edge : graph[u])
     {
-      int v = edge.first;
+      int v = id_to_index.at(edge.first);
       int weight = edge.second;
       int new_dist = d + weight;
 
@@ -74,5 +74,5 @@ int Dijkstra::shortest_path(int start, int target)
     }
   }
 
-  return -1;
+  return -1; // target에 도달할 수 없는 경우
 }
