@@ -6,7 +6,8 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
   int n = 5;
   int start = 0;
 
@@ -17,13 +18,17 @@ int main() {
   graph[3] = {{2, 20}, {4, 60}};
   graph[4] = {};
   Dijkstra d(n, graph);
-  vector<int> shortest_paths = d.shortest_path(start);
+  vector<int> shortest_paths = d.shortest_paths(start);
 
   cout << "Shortest distances from vertex " << start << ":\n";
-  for (int i = 0; i < n; ++i) {
-    if (shortest_paths[i] == std::numeric_limits<int>::max()) {
+  for (int i = 0; i < n; ++i)
+  {
+    if (shortest_paths[i] == std::numeric_limits<int>::max())
+    {
       cout << "Vertex " << i << ": INF\n";
-    } else {
+    }
+    else
+    {
       cout << "Vertex " << i << ": " << shortest_paths[i] << "\n";
     }
   }
