@@ -1,78 +1,32 @@
 #include "dijkstra.hpp"
 
-vector<int> Dijkstra::shortest_paths(int start)
-{
-  vector<int> dist(n, std::numeric_limits<int>::max());
-  dist[start] = 0;
+vector<int> dijkstra(int start, int V, vector<vector<Node>>& graph) {
+    priority_queue<Node, vector<Node>, greater<Node>> pq;
+    vector<int> dist(V, INF);
 
-  priority_queue<Node, vector<Node>, greater<Node>> pq;
-  pq.push({start, 0});
+    dist[start] = 0;
+    pq.push({start, 0});
 
-  while (!pq.empty())
-  {
-    Node current = pq.top();
-    pq.pop();
+    while (!pq.empty()) {
+        Node current = pq.top();
+        pq.pop();
 
-    int u = current.vertex;
-    int d = current.cost;
+        int u = current.vertex;
+        int currentCost = current.cost;
 
-    if (d > dist[u])
-      continue;
+        // if cost is excceds the table -> skip
+        if (currentCost > dist[u]) continue;
 
-    for (const Edge &edge : graph[u])
-    {
-      int v = edge.first;
-      int weight = edge.second;
-      int new_dist = d + weight;
+        for (const Node& neighbor : graph[u]) {
+            int v = neighbor.vertex;
+            int c = neighbor.cost;
+            int newDist = dist[u] + c;
 
-      if (new_dist < dist[v])
-      {
-        dist[v] = new_dist;
-        pq.push({v, new_dist});
-      }
+            if (newDist < dist[v]) {
+                dist[v] = newDist;
+                pq.push({v, newDist});
+            }
+        }
     }
-  }
-
-  return dist;
-}
-
-int Dijkstra::shortest_path(int start, int target)
-{
-  vector<int> dist(n, std::numeric_limits<int>::max());
-  dist[start] = 0;
-
-  priority_queue<Node, vector<Node>, greater<Node>> pq;
-  pq.push({start, 0});
-
-  while (!pq.empty())
-  {
-    Node current = pq.top();
-    pq.pop();
-
-    int u = current.vertex;
-    int d = current.cost;
-
-    if (u == target)
-    {
-      return d;
-    }
-
-    if (d > dist[u])
-      continue;
-
-    for (const Edge &edge : graph[u])
-    {
-      int v = edge.first;
-      int weight = edge.second;
-      int new_dist = d + weight;
-
-      if (new_dist < dist[v])
-      {
-        dist[v] = new_dist;
-        pq.push({v, new_dist});
-      }
-    }
-  }
-
-  return -1;
+    return dist;
 }

@@ -1,28 +1,18 @@
 #include <iostream>
-#include <vector>
-#include <queue>
 #include <limits>
+#include <queue>
 #include <utility>
+#include <vector>
 
 using namespace std;
+constexpr int INF = numeric_limits<int>::max();
 
-using Edge = pair<int, int>; // {destination, weight}
-
-struct Node
-{
-  int vertex;
-  int cost;
-  bool operator>(const Node &np) const { return this->cost > np.cost; }
+struct Node {
+    int vertex;
+    int cost;
+    bool operator>(const Node& other) const {  // for min-heap
+        return this->cost > other.cost;
+    }
 };
 
-class Dijkstra
-{
-public:
-  Dijkstra(int n, const vector<vector<Edge>> &graph) : n(n), graph(graph) {}
-  vector<int> shortest_paths(int start);
-  int shortest_path(int start, int target);
-
-private:
-  int n;
-  const vector<vector<Edge>> &graph;
-};
+vector<int> dijkstra(int start, int V, vector<vector<Node>>& graph);
