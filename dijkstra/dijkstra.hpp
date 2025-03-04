@@ -4,15 +4,8 @@
 #include <utility>
 #include <vector>
 
-using namespace std;
-constexpr int INF = numeric_limits<int>::max();
+#include "node.hpp"
 
-struct Node {
-    int vertex;
-    int cost;
-    bool operator>(const Node& other) const {  // for min-heap
-        return this->cost > other.cost;
-    }
-};
+using namespace std;
 
 vector<int> dijkstra(int start, int V, vector<vector<Node>>& graph);

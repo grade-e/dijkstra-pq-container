@@ -2,7 +2,7 @@
 
 vector<int> dijkstra(int start, int V, vector<vector<Node>>& graph) {
     priority_queue<Node, vector<Node>, greater<Node>> pq;
-    vector<int> dist(V, INF);
+    vector<int> dist(V, numeric_limits<int>::max());
 
     dist[start] = 0;
     pq.push({start, 0});
