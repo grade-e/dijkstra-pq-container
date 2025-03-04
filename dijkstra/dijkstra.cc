@@ -1,32 +1,32 @@
 #include "dijkstra.hpp"
 
-vector<int> dijkstra(int start, int V, vector<vector<Node>>& graph) {
+vector<int> dijkstra(int start, int nVertex, vector<vector<Node>>& graph) {
     priority_queue<Node, vector<Node>, greater<Node>> pq;
-    vector<int> dist(V, numeric_limits<int>::max());
-
-    dist[start] = 0;
+    vector<int> costs(nVertex, numeric_limits<int>::max());
+    costs[start] = 0;
     pq.push({start, 0});
 
     while (!pq.empty()) {
-        Node current = pq.top();
+        Node cur = pq.top();
         pq.pop();
+        int vertex = cur.vertex;
+        int cost = cur.cost;
 
-        int u = current.vertex;
-        int currentCost = current.cost;
+        // Skip if we have already found a better path
+        if (cost > costs[vertex]) continue;
 
-        // if cost is excceds the table -> skip
-        if (currentCost > dist[u]) continue;
-
-        for (const Node& neighbor : graph[u]) {
+        // Traverse all neighbors
+        for (const Node& neighbor : graph[vertex]) {
             int v = neighbor.vertex;
             int c = neighbor.cost;
-            int newDist = dist[u] + c;
+            int nc = costs[vertex] + c;
 
-            if (newDist < dist[v]) {
-                dist[v] = newDist;
-                pq.push({v, newDist});
+            // Update the cost if we have found a better path
+            if (nc < costs[v]) {
+                costs[v] = nc;
+                pq.push({v, nc});
             }
         }
     }
-    return dist;
+    return costs;
 }
