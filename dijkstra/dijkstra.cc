@@ -2,29 +2,29 @@
 
 vector<int> dijkstra(int start, int nVertex, vector<vector<Node>>& graph) {
     priority_queue<Node, vector<Node>, greater<Node>> pq;
-    vector<int> costs(nVertex, numeric_limits<int>::max());
+    vector<int> costs(nVertex, INF);
     costs[start] = 0;
     pq.push({start, 0});
 
     while (!pq.empty()) {
         Node cur = pq.top();
         pq.pop();
-        int vertex = cur.vertex;
+        int id = cur.id;
         int cost = cur.cost;
 
         // Skip if we have already found a better path
-        if (cost > costs[vertex]) continue;
+        if (cost > costs[id]) continue;
 
         // Traverse all neighbors
-        for (const Node& neighbor : graph[vertex]) {
-            int v = neighbor.vertex;
-            int c = neighbor.cost;
-            int nc = costs[vertex] + c;
+        for (const Node& neighbor : graph[id]) {
+            int nid = neighbor.id;
+            int ncost = neighbor.cost;
+            int new_cost = costs[id] + ncost;
 
             // Update the cost if we have found a better path
-            if (nc < costs[v]) {
-                costs[v] = nc;
-                pq.push({v, nc});
+            if (new_cost < costs[nid]) {
+                costs[nid] = new_cost;
+                pq.push({nid, new_cost});
             }
         }
     }
